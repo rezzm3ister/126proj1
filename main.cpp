@@ -8,26 +8,31 @@
 #include <algorithm>
 using namespace std;
 
-void fillparams(vector<string> &cmdlist, vector<char> &operators,vector<char> &arguments){
+void fillparams(vector<string> &cmdlist, vector<string> &operators){
   cmdlist.push_back("commands"); //populate this with our commands
   cmdlist.push_back("end");
 
 
-  operators.push_back('<'); //populate this with the operators
-  operators.push_back('>');
-  operators.push_back('|');
+  operators.push_back("<"); //populate this with the operators
+  operators.push_back(">");
+  operators.push_back("|");
 }
 
 
 
 int main(){
-  bool run=1;
+  bool run=1,validcmd=0;
   string in,tempstr;
   vector<string> cmdvec;
   vector<string> cmdlist;
-  vector<string> arguments;
-  vector<char> operators;
-  fillparams(cmdlist,operators,arguments);
+  vector<string> cmds;
+  vector<string> arguments; //list
+  vector<string> operators; //list
+
+  vector<string> ops;
+  vector<string> args;
+
+  fillparams(cmdlist,operators);
 
   while(run!=0){
     getline(cin,in);
@@ -38,14 +43,42 @@ int main(){
     }
 
     if(find(cmdlist.begin(),cmdlist.end(),cmdvec[0])!=cmdlist.end()){
-      string command=cmdvec[0];
-      cout<<cmdvec[0]<<" valid";
-    }
-    else{
-      cout<<cmdvec[0]<<" invalid";
-    }
+      //cout<<cmdvec[0]<<" valid";
+      validcmd=1;
+      for(int i=0;i<cmdvec.size();i++){
+        if(find(cmdlist.begin(),cmdlist.end(),cmdvec[i])!=cmdlist.end()){
+          cmds.push_back(cmds[i]);
+        }
+        else{}
+        if(find(operators.begin(),operators.end(),cmdvec[i])!=operators.end()){
+          ops.push_back(cmdvec[i]);
+          args.push_back(cmdvec[i+1]);
+        }
+      }
+
+        /*debug parse checker
+        cout<<cmdvec[0]<<endl;
+        for(int i=0;i<ops.size();i++){
+          cout<<ops[i]<<" ";
+        }
+        cout<<endl;
+        for(int i=0;i<args.size();i++){
+          cout<<args[i]<<" ";
+        }
+        */
+      }
+
+      else{
+        cout<<cmdvec[0]<<"\ninvalid command,";
+      }
 
     
+
+
+
+
+
+
 
     
   }
