@@ -169,7 +169,7 @@ void execArgsPipe(char *args[], char *argsPipe[], int flag){
 }
 
 //general execute function
-void exec(char *args[], int len){
+void genExec(char *args[], int len){
     int flag=0;
     int iPipe = checkPipe(args, len);
     if(iPipe == -1){
@@ -207,7 +207,7 @@ int main(void)
         int res=getInput(input, his);
         if( res== 1){//execute command
             len = parseInput(args, input);
-            exec(args, len);
+            genExec(args, len);
         }
         else if(res==0)// exit
         {
