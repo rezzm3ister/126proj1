@@ -104,7 +104,7 @@ void invadepoland(vector<string> &args, int len)
     if(args[len-1]=="&")
     {
         flag=1;
-        args[len-1]=NULL;
+        args[len-1]="";
         len--;
     }
     child1=fork();
