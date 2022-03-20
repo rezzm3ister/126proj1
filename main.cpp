@@ -1,7 +1,7 @@
 //code
 //alvarez angeles tuyay 126 proj 1
 #include <iostream>
-#include <Bits.h>
+//#include <Bits.h>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -35,29 +35,30 @@ int main(){
   fillparams(cmdlist,operators);
 
   while(run!=0){
+    cout<<"shell>";
     getline(cin,in);
     stringstream cmd(in);
     cmdvec.clear();
     while(cmd>>tempstr){
       cmdvec.push_back(tempstr);
     }
-
     if(find(cmdlist.begin(),cmdlist.end(),cmdvec[0])!=cmdlist.end()){
       //cout<<cmdvec[0]<<" valid";
       validcmd=1;
       for(int i=0;i<cmdvec.size();i++){
+        cout<<"tite";
         if(find(cmdlist.begin(),cmdlist.end(),cmdvec[i])!=cmdlist.end()){
           cmds.push_back(cmds[i]);
         }
         else{}
+        cout<<"penis";
         if(find(operators.begin(),operators.end(),cmdvec[i])!=operators.end()){
           ops.push_back(cmdvec[i]);
           args.push_back(cmdvec[i+1]);
         }
       }
-
+        cout<<"got here";
         /*debug parse checker
-        cout<<cmdvec[0]<<endl;
         for(int i=0;i<ops.size();i++){
           cout<<ops[i]<<" ";
         }
