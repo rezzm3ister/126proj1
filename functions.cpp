@@ -100,9 +100,9 @@ void invadepoland(vector<string> &args, int len)
     //transform(args.begin(),args.end(),back_inserter(argschar),convert);
     for(int i=0;i<args.size();i++)
     {
-      argschar.push_back(args[i].c_str());
+      argschar.push_back(const_cast<char*>(args[i].c_str()));
     }
-    const char** argschars = &argschar[0];
+    const char* argschars = &argschar[0];
     //const char* argschar = &argscharvec[0];
     const char* l1=args[len-1].c_str();
     const char* l2=args[len-2].c_str();
