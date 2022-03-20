@@ -41,7 +41,6 @@ int parseInput(vector<string> &args, string input)
 
 }
 
-
 //The function checks whether the passed argument uses a pipe or not
 int checkPipe(vector<string> args, int len)
 {
@@ -49,10 +48,8 @@ int checkPipe(vector<string> args, int len)
         if(args[i]=="|"){
           return i;
         }
-        /*
-        if(strcmp(args.at(i), "|") == 0)
-            return i;
-        */
+        
+        
     }
     return -1;
 }
@@ -96,6 +93,7 @@ void invadepoland(vector<string> &args, int len)
 {
     pid_t child1;
     int flag=0;
+    /*
     vector<const char*> argschar;
     //transform(args.begin(),args.end(),back_inserter(argschar),convert);
     for(int i=0;i<args.size();i++)
@@ -104,8 +102,16 @@ void invadepoland(vector<string> &args, int len)
     }
     const char* argschars = &argschar[0];
     //const char* argschar = &argscharvec[0];
+    */
     const char* l1=args[len-1].c_str();
     const char* l2=args[len-2].c_str();
+    
+    const char* argschar[len];
+    for(int i=0;i<len;i++)
+    {
+      argschar[i]=const_cast<char*>(args[i].c_str());
+    }
+
     if(args[len-1]=="&")
     {
         flag=1;
@@ -137,7 +143,7 @@ void invadepoland(vector<string> &args, int len)
                 close(in);
             }
         }
-        if (execvp(argschars[0], argschars) < 0){
+        if (execvp(argschar[0], argschar) < 0){
             cout << "\nwell that didnt work";
         }
         exit(1);
