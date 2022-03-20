@@ -99,8 +99,8 @@ void invadepoland(vector<string> &args, int len)
     vector<char*> argscharvec;
     std.transform(args.begin(),args.end(),back_inserter(argscharvec),convert);
     char* argschar = &argscharvec[0];
-    //const char* l1=args[len-1].c_str();
-    //const char* l2=args[len-2].c_str();
+    const char* l1=args[len-1].c_str();
+    const char* l2=args[len-2].c_str();
     if(args[len-1]=="&")
     {
         flag=1;
