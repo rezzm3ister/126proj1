@@ -19,9 +19,11 @@
 #include "execArgsPipe.h"
 #include "execArgs.h"
 
+
+
 using namespace std;
 
-#define MAX_LINE 80
+//#define MAX_LINE 80
 
 //input function
 int getInput(string &input){
@@ -185,7 +187,7 @@ int main(void)
         }
         else if(res==0)// exit
         {
-            runProg=0;
+            run=0;
         }
     }
     return 0;
