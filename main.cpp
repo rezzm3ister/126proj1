@@ -1,5 +1,6 @@
-//code
 //alvarez angeles tuyay 126 proj 1
+
+/*DELETE THIS BLOCK LATER
 #include <stdio.h>
 #include <stdlib.h>
 //#include <unistd.h>
@@ -8,9 +9,11 @@
 #include <sys/types.h> 
 //#include <sys/wait.h> 
 #include <sys/stat.h>
+*/
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
 
 //include header file
 #include "execArgsPipe.h"
@@ -24,7 +27,14 @@ using namespace std;
 int getInput(string &input){
   cout<<"shell>";
   getline(cin,input);
-  if(input.size()>0||)
+  if(input.size()>0&&input.find("exit")!=string::npos)
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 
 
 
@@ -68,18 +78,36 @@ int parseInput(string args, char input[]){
     return count;
 }
 */
+//done
+int parseInput(vector<string> &args, string input)
+{
+  stringstream tempsstream(input);
+  string tempstr;
 
+  while(tempsstream>>tempstr)
+  {
+    args.push_back(tempstr);
+  }
+  return args.size();
+
+}
+//todo
 //The function checks whether the passed argument uses a pipe or not
-int checkPipe(string args, int len){
+int checkPipe(vector<string> args, int len){
     for(int i = 0; i < len; i++){
+        if(args[i]=="|"){
+          return i;
+        }
+        /*
         if(strcmp(args.at(i), "|") == 0)
             return i;
+        */
     }
     return -1;
 }
 
 
-
+/*
 //general execute function
 void genExec(char *args[], int len){
     int flag=0;
@@ -104,11 +132,42 @@ void genExec(char *args[], int len){
         return;
     }
 }
+*/
+//rename execargs to invadepoland
+//rename execargspipe to pipesinvietnam
+//done
+void executeOrder66(vector<string> args, int len)
+{
+  int flag=0;
+  int ipipe = checkPipe(args,len);
+  if(ipipe==-1)
+  {
+    invadepoland(args,len);
+  }
+  else
+  {
+    vector<string> pipeargs;
+    int i;
+    for(i=0;i<len-ipipe-1;i++)
+    {
+      pipeargs.push_back(args[ipipe+i+1])
+    }
+  pipeargs[i]=NULL;
+  if(pipeargs[i-1]=='&'){
+    flag=1;
+    pipeargs[i-1]=NULL;
+  }
+  args[ipipe]=NULL;
+  pipesinvietnam(args,pipeargs,flag);
+
+  }
+}
+
 
 int main(void)
 {
     //char *args[MAX_LINE / 2 + 1];
-    string args;
+    vector<string> args;
     //char his[100];
     //his[0] = '\0';
     int run = 1;
@@ -121,7 +180,8 @@ int main(void)
         int res=getInput(input);
         if( res== 1){//execute command
             len = parseInput();
-            genExec(args, len);
+            //genExec(args, len);
+            executeOrder66(args,len);
         }
         else if(res==0)// exit
         {
