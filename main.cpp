@@ -2,11 +2,11 @@
 //alvarez angeles tuyay 126 proj 1
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
 #include <sys/types.h> 
-#include <sys/wait.h> 
+//#include <sys/wait.h> 
 #include <sys/stat.h>
 #include <iostream>
 
@@ -19,9 +19,15 @@ using namespace std;
 #define MAX_LINE 80
 
 //input function
-int getInput(char input[], char his[]){
+int getInput(string &input){
+  cout<<"shell>";
+  getline(cin,input);
+
+
+
+  /*
     cout << "execute";
-    fflush(stdout);
+    //fflush(stdout);
     
      fgets(input,MAX_LINE,stdin);
     
@@ -42,12 +48,13 @@ int getInput(char input[], char his[]){
         strcpy(his, input);
     }
     return 1;
+    */
 }
 
 
-
+/*
 //parse function
-int parseInput(char *args[], char input[]){
+int parseInput(string args, char input[]){
     int count = 0;
     char *tok = strtok(input," ");
     while(tok != NULL){
@@ -57,11 +64,12 @@ int parseInput(char *args[], char input[]){
     args[count] = tok;
     return count;
 }
+*/
 
 //The function checks whether the passed argument uses a pipe or not
-int checkPipe(char *args[], int len){
+int checkPipe(string args, int len){
     for(int i = 0; i < len; i++){
-        if(strcmp(args[i], "|") == 0)
+        if(strcmp(args.at(i), "|") == 0)
             return i;
     }
     return -1;
@@ -96,18 +104,20 @@ void genExec(char *args[], int len){
 
 int main(void)
 {
-    char *args[MAX_LINE / 2 + 1];
-    char his[100];
-    his[0] = '\0';
+    //char *args[MAX_LINE / 2 + 1];
+    string args;
+    //char his[100];
+    //his[0] = '\0';
     int runProg = 1;
     int state = 0;
 
     while(runProg) {
-        char input[100];
+        //char input[100];
+        string input=""; //init input
         int len;
-        int res=getInput(input, his);
+        int res=getInput(input);
         if( res== 1){//execute command
-            len = parseInput(args, input);
+            len = input.size();
             genExec(args, len);
         }
         else if(res==0)// exit
