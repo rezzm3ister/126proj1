@@ -6,31 +6,33 @@
 #include <sys/types.h> 
 #include <sys/wait.h> 
 #include <sys/stat.h>
+#include <iostream>
+using namespace std;
 
 #define MAX_LINE 80
 
 //input function
-int getInput(char input[], char history[]){
-    printf("osh>");
+int getInput(char input[], char his[]){
+    cout << "execute";
     fflush(stdout);
     
-     fgets(input,MAX_LINE,stdin);// khong nen dung gets vi tu C11 da bi xoa so roi
-    // xoa dau \n cuoi cung
+     fgets(input,MAX_LINE,stdin);
+    
     input[strlen(input)-1]='\0';
     if(strcmp(input, "!!") == 0){
-        if(strlen(history) != 0){
-            printf("%s\n", history);
-            strcpy(input, history);
+        if(strlen(his) != 0){
+            cout << "%s\n" << his;
+            strcpy(input, his);
         }
         else{
-            printf("No command in history!!!\n");
+            cout << "No command in history!!!\n";
             return -1;
         }
     }
     else if(strcmp(input,"exit")==0)
         return 0;
     if(strlen(input) > 0){
-        strcpy(history, input);
+        strcpy(his, input);
     }
     return 1;
 }
@@ -71,7 +73,7 @@ void execArgs(char *args[], int len){
         }
         // if error or wrong input
         if (execvp(args[0], args) < 0){
-            printf("\nCould not execute in command...");
+            cout << "\nCould not execute in command...";
         }
         exit(1);
 
@@ -85,7 +87,7 @@ void execArgs(char *args[], int len){
         return;
     }else {
 
-        printf("\nCan't fork!!!"); //cant split process
+        cout << "\nCan't fork!!!"; //cant split process
         return;
     }
 }
@@ -117,7 +119,7 @@ void execArgsPipe(char *args[], char *argsPipe[], int flag){
 
     int fd[2];// file decription
     if(pipe(fd) < 0){//initialize pipeline
-        printf("\nCan't init pipe!!!!");
+        cout << "\nCan't init pipe!!!!";
         return;
     }
     // process split
@@ -131,7 +133,7 @@ void execArgsPipe(char *args[], char *argsPipe[], int flag){
         close(fd[1]);
         //check if executable
         if(execvp(args[0],args) < 0){
-            printf("\nCan't execute pipe 1...");
+            cout << "\nCan't execute pipe 1...";
         }
         exit(1);
     }else if(pid >0){//parent program
@@ -142,26 +144,26 @@ void execArgsPipe(char *args[], char *argsPipe[], int flag){
             close(fd[1]);
             close(fd[0]);
             if(execvp(argsPipe[0], argsPipe) < 0){
-                printf("\nCan't execute pipe 2...");
+                cout << "\nCan't execute pipe 2...";
             }
             
             exit(1);
         }
         else if(pid > 0){
-            int status;
+            int state;
             close(fd[0]);
             close(fd[1]);
             if(flag==0)
-                waitpid(pid, &status, 0);
+                waitpid(pid, &state, 0);
             return;
         }
         else {
-            printf("\nCan't fork!!!");
+            cout << "\nCan't fork!!!";
             return;
         }
     }
     else{
-        printf("\nCan't fork!!!");
+        cout << "\nCan't fork!!!";
         return;
     }
 }
@@ -194,22 +196,22 @@ void exec(char *args[], int len){
 int main(void)
 {
     char *args[MAX_LINE / 2 + 1];
-    char history[100];
-    history[0] = '\0';
-    int shouldRun = 1;
-    int status = 0;
+    char his[100];
+    his[0] = '\0';
+    int runProg = 1;
+    int state = 0;
 
-    while(shouldRun) {
+    while(runProg) {
         char input[100];
         int len;
-        int res=getInput(input, history);
+        int res=getInput(input, his);
         if( res== 1){//execute command
             len = parseInput(args, input);
             exec(args, len);
         }
         else if(res==0)// exit
         {
-            shouldRun=0;
+            runProg=0;
         }
     }
     return 0;
