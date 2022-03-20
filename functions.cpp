@@ -96,9 +96,9 @@ void invadepoland(vector<string> &args, int len)
 {
     pid_t child1;
     int flag=0;
-    vector<char*> argscharvec;
+    vector<char> argscharvec;
     std.transform(args.begin(),args.end(),back_inserter(argscharvec),convert);
-    const char argschar = &argscharvec[0];
+    const char* argschar = &argscharvec[0];
     const char* l1=args[len-1].c_str();
     const char* l2=args[len-2].c_str();
     if(args[len-1]=="&")
@@ -187,7 +187,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
             dup2(fd[0], STDIN_FILENO);
             close(fd[1]);
             close(fd[0]);
-            if(execvp(luigis[0], luigis) < 0){
+            if(execvp(luigischar[0], luigischar) < 0){
                 cout << "\nwarp pipe 2 failed";
             }
             
