@@ -97,7 +97,12 @@ void invadepoland(vector<string> &args, int len)
     pid_t child1;
     int flag=0;
     vector<const char*> argschar;
-    transform(args.begin(),args.end(),back_inserter(argschar),convert);
+    //transform(args.begin(),args.end(),back_inserter(argschar),convert);
+    for(int i=0;i<args.size();i++)
+    {
+      argschar.push_back(args[i].c_str());
+    }
+    const char** argschars = &argschar;
     //const char* argschar = &argscharvec[0];
     const char* l1=args[len-1].c_str();
     const char* l2=args[len-2].c_str();
@@ -132,7 +137,7 @@ void invadepoland(vector<string> &args, int len)
                 close(in);
             }
         }
-        if (execvp(argschar[0], argschar) < 0){
+        if (execvp(argschars[0], argschars) < 0){
             cout << "\nwell that didnt work";
         }
         exit(1);
@@ -159,11 +164,21 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
     //const char* l2=args[len-2].c_str();
     int fd[2];// not sure if this is right
     vector<const char*> argschar;
-    transform(args.begin(),args.end(),back_inserter(argschar),convert);
+    //std::transform(args.begin(),args.end(),back_inserter(argschar),convert);
     //char argschar = &argscharvec[0];
+    for(int i=0;i<args.size();i++)
+    {
+      argschar.push_back(args[i].c_str());
+    }
+    const char** argschars = &argschar;
     vector<const char*> luigis;
-    transform(marios.begin(),marios.end(),back_inserter(luigis),convert);
+    //transform(marios.begin(),marios.end(),back_inserter(luigis),convert);
     //char luigischar= &luigis[0];
+    for(int i=0;i<luigis.size();i++)
+    {
+      luigischar.push_back(luigis[i].c_str());
+    }
+    const char** argschars = &argschar;
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
         return;
@@ -174,9 +189,10 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
         // closed unused section
         close(fd[0]);
         // Close the used fd[2] part 
+        
         close(fd[1]);
         //check if executable
-        if(execvp(argschar[0],argschar) < 0){
+        if(execvp(argschars[0],argschars) < 0){
             cout << "\nwarp pipe 1 failed";
         }
         exit(1);
@@ -187,7 +203,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
             dup2(fd[0], STDIN_FILENO);
             close(fd[1]);
             close(fd[0]);
-            if(execvp(luigis[0], luigis) < 0){
+            if(execvp(luigischar[0], luigischar) < 0){
                 cout << "\nwarp pipe 2 failed";
             }
             
