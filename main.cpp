@@ -1,5 +1,7 @@
 //alvarez angeles tuyay 126 proj 1
-
+#include <sys/types.h> 
+#include <sys/wait.h> 
+#include <sys/stat.h>
 #include <iostream>
 #include <string>
 #include <sstream>
