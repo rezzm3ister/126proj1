@@ -93,12 +93,12 @@ void invadepoland(vector<string> &argsvec, int len)
     pid_t child1;
     int flag=0;
 
-    char* args[]=&argsvec;
+    char* args[len]=&argsvec;
 
     if(args[len-1]=="&")
     {
         flag=1;
-        args[len-1]="";
+        args[len-1]=NULL;
         len--;
     }
     child1=fork();
@@ -107,18 +107,18 @@ void invadepoland(vector<string> &argsvec, int len)
     {
         if(len>=3)
         {
-            if(args[len-2]==">")
+            if(argsvec[len-2]==">")
             {
-                args[len-2]="";
+                args[len-2]=NULL;
                 //whatever those arguments for linux open are
                 int out = open(args[len - 1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
                 // switch from stdout to file
                 dup2(out, STDOUT_FILENO);
                 close(out);
             }
-            else if(args[len-2]=="<")
+            else if(argsvec[len-2]=="<")
             {
-                args[len-2]="";
+                args[len-2]=NULL;
                 // open input file
                 int in = open(args[len - 1], O_RDONLY);
                 //redirect input from converter to get from file
@@ -149,7 +149,7 @@ void invadepoland(vector<string> &argsvec, int len)
 void pipesinvietnam(vector<string> &argsvec,vector<string> &marios,int &flag)
 {
     pid_t children;
-    char* args[]=&argsvec;
+    char* args[len]=&argsvec;
     int fd[2];// not sure if this is right
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
@@ -180,7 +180,7 @@ void pipesinvietnam(vector<string> &argsvec,vector<string> &marios,int &flag)
             
             exit(1);
         }
-        else if(pid > 0){
+        else if(children > 0){
             int state;
             close(fd[0]);
             close(fd[1]);
