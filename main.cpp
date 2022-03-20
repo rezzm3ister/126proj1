@@ -9,8 +9,10 @@
 #include <sys/wait.h> 
 #include <sys/stat.h>
 #include <iostream>
-#include <execArgsPipe.h>
-#include <execArgs.h>
+
+//include header file
+#include "execArgsPipe.h"
+#include "execArgs.h"
 
 using namespace std;
 
