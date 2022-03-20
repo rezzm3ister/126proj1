@@ -148,19 +148,19 @@ void executeOrder66(vector<string> args, int len)
   }
   else
   {
-    vector<string> pipeargs;
+    vector<string> marios;
     int i;
     for(i=0;i<len-ipipe-1;i++)
     {
-      pipeargs.push_back(args[ipipe+i+1])
+      marios.push_back(args[ipipe+i+1]);
     }
-  pipeargs[i]=NULL;
-  if(pipeargs[i-1]=='&'){
+  marios[i]="";
+  if(pipeargs[i-1]=="&"){
     flag=1;
-    pipeargs[i-1]=NULL;
+    marios[i-1]="";
   }
-  args[ipipe]=NULL;
-  pipesinvietnam(args,pipeargs,flag);
+  args[ipipe]="";
+  pipesinvietnam(args,marios,flag);
 
   }
 }
@@ -177,11 +177,11 @@ int main(void)
 
     while(run) {
         //char input[100];
-        string input=""; //init input
+        string input; //init input
         int len;
         int res=getInput(input);
         if( res== 1){//execute command
-            len = parseInput();
+            len = parseInput(args,input);
             //genExec(args, len);
             executeOrder66(args,len);
         }
