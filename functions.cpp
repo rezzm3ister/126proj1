@@ -187,7 +187,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
             dup2(fd[0], STDIN_FILENO);
             close(fd[1]);
             close(fd[0]);
-            if(execvp(luigischar[0], luigis) < 0){
+            if(execvp(luigis[0], luigis) < 0){
                 cout << "\nwarp pipe 2 failed";
             }
             
