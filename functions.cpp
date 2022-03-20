@@ -93,7 +93,7 @@ void invadepoland(vector<string> &argsvec, int len)
     pid_t child1;
     int flag=0;
 
-    char* args[]=argsvec;
+    char* args[]=&argsvec;
 
     if(args[len-1]=="&")
     {
@@ -149,7 +149,7 @@ void invadepoland(vector<string> &argsvec, int len)
 void pipesinvietnam(vector<string> &argsvec,vector<string> &marios,int &flag)
 {
     pid_t children;
-    char* args[]=argsvec;
+    char* args[]=&argsvec;
     int fd[2];// not sure if this is right
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
