@@ -1,6 +1,6 @@
 //alvarez angeles tuyay 126 proj 1
 #include <sys/types.h> 
-#include <sys/wait.h> 
+//#include <sys/wait.h> 
 #include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,12 +24,14 @@ int main()
     int state = 0;
 
     while(run) {
-        string input; //init input
+        //string input; 
+        char *args[40]; //input has to be char apparently
         int len;
         int res=getInput(input);
         if( res== 1){//execute command
             len = parseInput(args,input);
-            executeOrder66(args,len);
+            cout<<len;
+            //executeOrder66(args,len);
         }
         else if(res==0)// exit
         {
