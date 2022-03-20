@@ -96,8 +96,9 @@ void invadepoland(vector<string> &args, int len)
 {
     pid_t child1;
     int flag=0;
-    vector<char*> argschar;
-    std.transform(args.begin(),args.end(),back_inserter(args),convert);
+    vector<char*> argscharvec;
+    std.transform(args.begin(),args.end(),back_inserter(argscharvec),convert);
+    char* argschar = &argscharvec[0];
     //const char* l1=args[len-1].c_str();
     //const char* l2=args[len-2].c_str();
     if(args[len-1]=="&")
@@ -161,6 +162,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
     std.transform(args.begin(),args.end(),back_inserter(args),convert);
     vector<char*> luigis;
     std.transform(marios.begin(),marios.end(),back_inserter(luigis),convert);
+    char* luigischar= &luigis[0];
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
         return;
