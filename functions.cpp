@@ -87,13 +87,19 @@ void executeOrder66(vector<string> args, int len)
   }
 }
 
+const char *convert(const std::string & s)
+{
+   return s.c_str();
+}
 
 void invadepoland(vector<string> &args, int len)
 {
     pid_t child1;
     int flag=0;
-    const char* l1=args[len-1].c_str();
-    const char* l2=args[len-2].c_str();
+    vector<char*> argschar;
+    std.transform(args.begin(),args.end(),back_inserter(args),convert);
+    //const char* l1=args[len-1].c_str();
+    //const char* l2=args[len-2].c_str();
     if(args[len-1]=="&")
     {
         flag=1;
@@ -125,7 +131,7 @@ void invadepoland(vector<string> &args, int len)
                 close(in);
             }
         }
-        if (execvp(args[0], args) < 0){
+        if (execvp(argschar[0], argschar) < 0){
             cout << "\nwell that didnt work";
         }
         exit(1);
@@ -148,9 +154,13 @@ void invadepoland(vector<string> &args, int len)
 void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
 {
     pid_t children;
-    const char* l1=args[len-1].c_str();
-    const char* l2=args[len-2].c_str();
+    //const char* l1=args[len-1].c_str();
+    //const char* l2=args[len-2].c_str();
     int fd[2];// not sure if this is right
+    vector<char*> argschar;
+    std.transform(args.begin(),args.end(),back_inserter(args),convert);
+    vector<char*> luigis;
+    std.transform(marios.begin(),marios.end(),back_inserter(luigis),convert);
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
         return;
@@ -163,7 +173,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
         // Close the used fd[2] part 
         close(fd[1]);
         //check if executable
-        if(execvp(args[0],args) < 0){
+        if(execvp(argschar[0],argschar) < 0){
             cout << "\nwarp pipe 1 failed";
         }
         exit(1);
@@ -174,7 +184,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
             dup2(fd[0], STDIN_FILENO);
             close(fd[1]);
             close(fd[0]);
-            if(execvp(marios[0], marios) < 0){
+            if(execvp(luigis[0], luigis) < 0){
                 cout << "\nwarp pipe 2 failed";
             }
             
