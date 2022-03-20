@@ -88,13 +88,12 @@ void executeOrder66(vector<string> args, int len)
 }
 
 
-void invadepoland(vector<string> &argsvec, int len)
+void invadepoland(vector<string> &args, int len)
 {
     pid_t child1;
     int flag=0;
-
-    char* args[len]=&argsvec;
-
+    const char* l1=args[len-1].c_str();
+    const char* l2=args[len-2].c_str();
     if(args[len-1]=="&")
     {
         flag=1;
@@ -107,20 +106,20 @@ void invadepoland(vector<string> &argsvec, int len)
     {
         if(len>=3)
         {
-            if(argsvec[len-2]==">")
+            if(args[len-2]==">")
             {
-                args[len-2]=NULL;
+                args[len-2]="";
                 //whatever those arguments for linux open are
-                int out = open(args[len - 1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+                int out = open(l1, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
                 // switch from stdout to file
                 dup2(out, STDOUT_FILENO);
                 close(out);
             }
-            else if(argsvec[len-2]=="<")
+            else if(args[len-2]=="<")
             {
-                args[len-2]=NULL;
+                args[len-2]="";
                 // open input file
-                int in = open(args[len - 1], O_RDONLY);
+                int in = open(l1, O_RDONLY);
                 //redirect input from converter to get from file
                 dup2(in, STDIN_FILENO);
                 close(in);
@@ -146,10 +145,11 @@ void invadepoland(vector<string> &argsvec, int len)
 }
 
 
-void pipesinvietnam(vector<string> &argsvec,vector<string> &marios,int &flag)
+void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
 {
     pid_t children;
-    char* args[len]=&argsvec;
+    const char* l1=args[len-1].c_str();
+    const char* l2=args[len-2].c_str();
     int fd[2];// not sure if this is right
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
