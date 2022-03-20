@@ -9,6 +9,8 @@
 //#include <sys/wait.h> 
 #include <sys/stat.h>
 #include <iostream>
+#include <string>
+#include <sstream>
 
 //include header file
 #include "execArgsPipe.h"
@@ -22,6 +24,7 @@ using namespace std;
 int getInput(string &input){
   cout<<"shell>";
   getline(cin,input);
+  if(input.size()>0||)
 
 
 
@@ -108,16 +111,16 @@ int main(void)
     string args;
     //char his[100];
     //his[0] = '\0';
-    int runProg = 1;
+    int run = 1;
     int state = 0;
 
-    while(runProg) {
+    while(run) {
         //char input[100];
         string input=""; //init input
         int len;
         int res=getInput(input);
         if( res== 1){//execute command
-            len = input.size();
+            len = parseInput();
             genExec(args, len);
         }
         else if(res==0)// exit
