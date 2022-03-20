@@ -170,7 +170,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
     {
       argschar.push_back(args[i].c_str());
     }
-    const char* argschars = &argschar;
+    const char* argschars = &argschar[0];
     vector<const char*> luigis;
     //transform(marios.begin(),marios.end(),back_inserter(luigis),convert);
     //char luigischar= &luigis[0];
@@ -178,7 +178,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
     {
       luigischar.push_back(luigis[i].c_str());
     }
-    const char* luigischar = &luigis;
+    const char* luigischar = &luigis[0];
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
         return;
