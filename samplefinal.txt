@@ -1,0 +1,9 @@
+
+ls
+ls
+bash
+bash.exe
+cd "/home/elijah/Documents/ENGG 126 Project 1/code/" && gcc cshell.c -o cshell && "/home/elijah/Documents/ENGG 126 Project 1/code/"cshell
+ls
+let's put some sample text here
+exit
