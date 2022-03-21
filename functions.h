@@ -11,7 +11,7 @@ int checkPipe(char* args[], int len);
 
 void executeOrder66(char* args[], int len);
 
-void invadepoland(char* args[], int len);
+void execnopipe(char* args[], int len);
 
-void pipesinvietnam(char* args[],char* marios[],int &flag);
+void execwithpipe(char* args[],char* marios[],int &flag);
 

@@ -29,22 +29,10 @@ int getInput(char input[])
     return 0;
   }
   
-  return 1;
+  return -1;
   
 }
-/*
-int parseInput(vector<string> &args, string input)
-{
-  stringstream tempsstream(input);
-  string tempstr;
 
-  while(tempsstream>>tempstr)
-  {
-    args.push_back(tempstr);
-  }
-  return args.size();
-}
-*/
 int parseInput(char* args[], char input[]){
     int count = 0;
     char *token = strtok(input," ");
@@ -61,27 +49,27 @@ int parseInput(char* args[], char input[]){
 int checkPipe(char* args[], int len)
 {
     for(int i = 0; i < len; i++){
-        if(args[i]=="|"){
+        if(strcmp(args[i],"|")==0){
           return i;
         }
     }
     return -1;
 }
 
-//rename execargs to invadepoland
-//rename execargspipe to pipesinvietnam
-//done
+
+//takes the input line and checks for pipes
 void executeOrder66(char* args[], int len)
 {
   int flag=0;
   int ipipe = checkPipe(args,len);
   if(ipipe==-1)
   {
-    invadepoland(args,len);
+    execnopipe(args,len);
   }
   else
   {
-    //vector<string> marios; //if pipe its mario because mario goes in pipe
+    //vector<string> marios; //pipe args is mario because mario goes in pipe
+    //also no vectors because linux mad
     int i;
     char* marios[40];
     for(i=0;i<len-ipipe-1;i++)
@@ -95,40 +83,17 @@ void executeOrder66(char* args[], int len)
     marios[i-1]=NULL;
   }
   args[ipipe]=NULL;
-  pipesinvietnam(args,marios,flag);
+  execwithpipe(args,marios,flag);
 
   }
 }
 
-/*
-const char *convert(const std::string & s)
-{
-   return s.c_str();
-}
-*/
-void invadepoland(char *args[40], int len)
+
+void execnopipe(char *args[40], int len)
 {
     pid_t child1;
     int flag=0;
-    /*
-    vector<const char*> argschar;
-    //transform(args.begin(),args.end(),back_inserter(argschar),convert);
-    for(int i=0;i<args.size();i++)
-    {
-      argschar.push_back(const_cast<char*>(args[i].c_str()));
-    }
-    const char* argschars = &argschar[0];
-    //const char* argschar = &argscharvec[0];
     
-    const char* l1=args[len-1].c_str();
-    const char* l2=args[len-2].c_str();
-    const char* argschar[len];
-    
-    for(int i=0;i<len;i++)
-    {
-      argschar[i]=const_cast<char*>(args[i].c_str());
-    }
-  */
     if(args[len-1]=="&")
     {
         flag=1;
@@ -141,7 +106,7 @@ void invadepoland(char *args[40], int len)
     {
         if(len>=3)
         {
-            if(args[len-2]==">")
+            if(strcmp(args[len-2],">")==0)
             {
                 args[len-2]=NULL;
                 //whatever those arguments for linux open are
@@ -150,7 +115,7 @@ void invadepoland(char *args[40], int len)
                 dup2(out, STDOUT_FILENO);
                 close(out);
             }
-            else if(args[len-2]=="<")
+            else if(strcmp(args[len-2],"<")==0)
             {
                 args[len-2]=NULL;
                 // open input file
@@ -180,38 +145,18 @@ void invadepoland(char *args[40], int len)
 }
 
 
-void pipesinvietnam(char* args[],char* marios[],int &flag)
+void execwithpipe(char* args[],char* marios[],int &flag)
 {
     pid_t children;
-    //const char* l1=args[len-1].c_str();
-    //const char* l2=args[len-2].c_str();
-    int fd[2];// not sure if this is right
-    //vector<const char*> argschar;
-    //std::transform(args.begin(),args.end(),back_inserter(argschar),convert);
-    //char argschar = &argscharvec[0];
-    /*
-    for(int i=0;i<args.size();i++)
-    {
-      argschar.push_back(args[i].c_str());
-    }
-    const char** argschars = &argschar[0];
-    vector<const char*> luigis;
-    //transform(marios.begin(),marios.end(),back_inserter(luigis),convert);
-    //char luigischar= &luigis[0];
-    for(int i=0;i<luigis.size();i++)
-    {
-      luigischar.push_back(luigis[i].c_str());
-    }
-    */
-    //const char** luigischar = &luigis[0];
-
+    
+    int fd[2];// not sure if this is right but it works
 
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
         return;
     }
-    children=fork();
-    if(children == 0){// Tiến trình con
+    children=fork(); //make children
+    if(children == 0){
         dup2(fd[1], STDOUT_FILENO);// write to file 
         // closed unused section
         close(fd[0]);
@@ -225,7 +170,7 @@ void pipesinvietnam(char* args[],char* marios[],int &flag)
         exit(1);
     }else if(children >0){//parent program
         
-        children = fork();
+        children = fork();//make another child do the work
         if(children == 0){
             dup2(fd[0], STDIN_FILENO);
             close(fd[1]);
