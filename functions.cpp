@@ -152,62 +152,64 @@ void execnopipe(char *args[40], int len)
 
 void execwithpipe(char* args[],char* marios[],int &flag)
 {
-    pid_t children;
-    
-    int fd[2];// not sure if this is right but it works
+  pid_t children;
+  
+  int fd[2];// not sure if this is right but it works
 
-    if(pipe(fd) < 0)
-    {//initialize pipeline
-        cout << "\ncant into pipe";
-        return;
-    }
-    children=fork(); //make children
-    if(children == 0){
-        dup2(fd[1], STDOUT_FILENO);// write to file 
-        // closed unused section
-        close(fd[0]);
-        // Close the used fd[2] part 
-        
-        close(fd[1]);
-        //check if executable
-        if(execvp(args[0],args) < 0)
-        {
-            cout << "\nwarp pipe 1 failed";
-        }
-        exit(1);
-    }
-    else if(children >0){//parent program
-        
-        children = fork();//make another child do the work
-        if(children == 0)
-        {
-            dup2(fd[0], STDIN_FILENO);
-            close(fd[1]);
-            close(fd[0]);
-            if(execvp(marios[0], marios) < 0){
-                cout << "\nwarp pipe 2 failed";
-            }
-            
-            exit(1);
-        }
-        else if(children > 0)
-        {
-            int state;
-            close(fd[0]);
-            close(fd[1]);
-            if(flag==0)
-                waitpid(children, &state, 0);
-            return;
-        }
-        else 
-        {
-            cout << "\nCan't fork!!!";
-            return;
-        }
-    }
-    else
+  if(pipe(fd) < 0)
+  {//initialize pipeline
+    cout << "\ncant into pipe";
+    return;
+  }
+  children=fork(); //make children
+  if(children == 0)
+  {
+    dup2(fd[1], STDOUT_FILENO);// write to file 
+    // closed unused section
+    close(fd[0]);
+    // Close the used fd[2] part 
+    
+    close(fd[1]);
+    //check if executable
+    if(execvp(args[0],args) < 0)
     {
-        cout << "\nCan't fork!!!";
-        return;
+      cout << "\nwarp pipe 1 failed";
     }
+    exit(1);
+  }
+  else if(children >0)
+  {//parent program
+      
+    children = fork();//make another child do the work
+    if(children == 0)
+    {
+      dup2(fd[0], STDIN_FILENO);
+      close(fd[1]);
+      close(fd[0]);
+      if(execvp(marios[0], marios) < 0){
+        cout << "\nwarp pipe 2 failed";
+      }
+        
+      exit(1);
+    }
+    else if(children > 0)
+    {
+      int state;
+      close(fd[0]);
+      close(fd[1]);
+      if(flag==0)
+        waitpid(children, &state, 0);
+      return;
+    }
+    else 
+    {
+      cout << "\nCan't fork!!!";
+      return;
+    }
+  }
+  else
+  {
+      cout << "\nCan't fork!!!";
+      return;
+  }
 }
