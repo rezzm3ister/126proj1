@@ -37,7 +37,8 @@ int parseInput(char* args[], char input[])
 {
     int count = 0;
     char *token = strtok(input," ");
-    while(token != NULL){
+    while(token != NULL)
+    {
         args[count++] = token;
         token = strtok(NULL, " ");
     }
