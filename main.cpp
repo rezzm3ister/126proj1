@@ -19,13 +19,15 @@ using namespace std;
 
 int main()
 {
-    vector<string> args;
+    //vector<string> args;
+    char* args[40]; //cant use vector because c++ gets mad
+
     int run = 1;
     int state = 0;
 
     while(run) {
-        //string input; 
-        char *args[40]; //input has to be char apparently
+        char input[100]; 
+        //string input;
         int len;
         int res=getInput(input);
         if( res== 1){//execute command

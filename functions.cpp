@@ -14,20 +14,21 @@
 
 using namespace std;
 
-int getInput(string &input)
+int getInput(char input[])
 {
+  string tempin;
   cout<<"shell>";
-  getline(cin,input);
-  if(input.size()>0&&input.find("exit")!=string::npos)
+  cin.getline(input,80);
+  tempin=string(input);
+  if(tempin.size()>0&&tempin.find("exit")!=string::npos)
   {
     return 1;
   }
-  else
-  {
-    return 0;
-  }
+  
+  return 0;
+  
 }
-
+/*
 int parseInput(vector<string> &args, string input)
 {
   stringstream tempsstream(input);
@@ -38,18 +39,27 @@ int parseInput(vector<string> &args, string input)
     args.push_back(tempstr);
   }
   return args.size();
-
+}
+*/
+int parseInput(char* args[], char input[]){
+    int count = 0;
+    char *token = strtok(input," ");
+    while(token != NULL){
+        args[count++] = token;
+        token = strtok(NULL, " ");
+    }
+    args[count] = token;
+    return count;
 }
 
+
 //The function checks whether the passed argument uses a pipe or not
-int checkPipe(vector<string> args, int len)
+int checkPipe(char* args[], int len)
 {
     for(int i = 0; i < len; i++){
         if(args[i]=="|"){
           return i;
         }
-        
-        
     }
     return -1;
 }
@@ -57,7 +67,7 @@ int checkPipe(vector<string> args, int len)
 //rename execargs to invadepoland
 //rename execargspipe to pipesinvietnam
 //done
-void executeOrder66(vector<string> args, int len)
+void executeOrder66(char* args[], int len)
 {
   int flag=0;
   int ipipe = checkPipe(args,len);
@@ -67,29 +77,32 @@ void executeOrder66(vector<string> args, int len)
   }
   else
   {
-    vector<string> marios;
+    //vector<string> marios; //if pipe its mario because mario goes in pipe
     int i;
+    char* marios[40];
     for(i=0;i<len-ipipe-1;i++)
     {
-      marios.push_back(args[ipipe+i+1]);
+      //marios.push_back(args[ipipe+i+1]);
+      marios[i] = args[ipipe+i+1];
     }
-  marios[i]="";
+  marios[i]=NULL;
   if(marios[i-1]=="&"){
     flag=1;
-    marios[i-1]="";
+    marios[i-1]=NULL;
   }
-  args[ipipe]="";
+  args[ipipe]=NULL;
   pipesinvietnam(args,marios,flag);
 
   }
 }
 
+/*
 const char *convert(const std::string & s)
 {
    return s.c_str();
 }
-
-void invadepoland(vector<string> &args, int len)
+*/
+void invadepoland(char *args[40], int len)
 {
     pid_t child1;
     int flag=0;
@@ -102,20 +115,20 @@ void invadepoland(vector<string> &args, int len)
     }
     const char* argschars = &argschar[0];
     //const char* argschar = &argscharvec[0];
-    */
+    
     const char* l1=args[len-1].c_str();
     const char* l2=args[len-2].c_str();
-    
     const char* argschar[len];
+    
     for(int i=0;i<len;i++)
     {
       argschar[i]=const_cast<char*>(args[i].c_str());
     }
-
+  */
     if(args[len-1]=="&")
     {
         flag=1;
-        args[len-1]="";
+        args[len-1]=NULL;
         len--;
     }
     child1=fork();
@@ -126,24 +139,24 @@ void invadepoland(vector<string> &args, int len)
         {
             if(args[len-2]==">")
             {
-                args[len-2]="";
+                args[len-2]=NULL;
                 //whatever those arguments for linux open are
-                int out = open(l1, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+                int out = open(args[len-1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
                 // switch from stdout to file
                 dup2(out, STDOUT_FILENO);
                 close(out);
             }
             else if(args[len-2]=="<")
             {
-                args[len-2]="";
+                args[len-2]=NULL;
                 // open input file
-                int in = open(l1, O_RDONLY);
+                int in = open(args[len-1], O_RDONLY);
                 //redirect input from converter to get from file
                 dup2(in, STDIN_FILENO);
                 close(in);
             }
         }
-        if (execvp(argschar[0], argschar) < 0){
+        if (execvp(args[0], args) < 0){
             cout << "\nwell that didnt work";
         }
         exit(1);
@@ -163,15 +176,16 @@ void invadepoland(vector<string> &args, int len)
 }
 
 
-void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
+void pipesinvietnam(char* args[],char* marios[],int &flag)
 {
     pid_t children;
     //const char* l1=args[len-1].c_str();
     //const char* l2=args[len-2].c_str();
     int fd[2];// not sure if this is right
-    vector<const char*> argschar;
+    //vector<const char*> argschar;
     //std::transform(args.begin(),args.end(),back_inserter(argschar),convert);
     //char argschar = &argscharvec[0];
+    /*
     for(int i=0;i<args.size();i++)
     {
       argschar.push_back(args[i].c_str());
@@ -184,7 +198,10 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
     {
       luigischar.push_back(luigis[i].c_str());
     }
-    const char** luigischar = &luigis[0];
+    */
+    //const char** luigischar = &luigis[0];
+
+
     if(pipe(fd) < 0){//initialize pipeline
         cout << "\ncant into pipe";
         return;
@@ -198,7 +215,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
         
         close(fd[1]);
         //check if executable
-        if(execvp(argschars[0],argschars) < 0){
+        if(execvp(args[0],args) < 0){
             cout << "\nwarp pipe 1 failed";
         }
         exit(1);
@@ -209,7 +226,7 @@ void pipesinvietnam(vector<string> &args,vector<string> &marios,int &flag)
             dup2(fd[0], STDIN_FILENO);
             close(fd[1]);
             close(fd[0]);
-            if(execvp(luigischar[0], luigischar) < 0){
+            if(execvp(marios[0], marios) < 0){
                 cout << "\nwarp pipe 2 failed";
             }
             
