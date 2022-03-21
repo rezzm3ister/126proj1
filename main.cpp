@@ -32,8 +32,7 @@ int main()
         int res=getInput(input);
         if( res== 1){//execute command
             len = parseInput(args,input);
-            cout<<len;
-            //executeOrder66(args,len);
+            executeOrder66(args,len);
         }
         else if(res==0)// exit
         {

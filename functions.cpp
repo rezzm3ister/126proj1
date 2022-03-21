@@ -20,12 +20,16 @@ int getInput(char input[])
   cout<<"shell>";
   cin.getline(input,80);
   tempin=string(input);
-  if(tempin.size()>0&&tempin.find("exit")!=string::npos)
+  if(tempin!="!!")
   {
     return 1;
   }
+  else if(tempin=="exit")
+  {
+    return 0;
+  }
   
-  return 0;
+  return 1;
   
 }
 /*
