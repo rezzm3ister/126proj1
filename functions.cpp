@@ -33,7 +33,8 @@ int getInput(char input[])
   
 }
 
-int parseInput(char* args[], char input[]){
+int parseInput(char* args[], char input[])
+{
     int count = 0;
     char *token = strtok(input," ");
     while(token != NULL){
@@ -49,7 +50,8 @@ int parseInput(char* args[], char input[]){
 int checkPipe(char* args[], int len)
 {
     for(int i = 0; i < len; i++){
-        if(strcmp(args[i],"|")==0){
+        if(strcmp(args[i],"|")==0)
+        {
           return i;
         }
     }
@@ -78,7 +80,8 @@ void executeOrder66(char* args[], int len)
       marios[i] = args[ipipe+i+1];
     }
   marios[i]=NULL;
-  if(marios[i-1]=="&"){
+  if(marios[i-1]=="&")
+  {
     flag=1;
     marios[i-1]=NULL;
   }
@@ -125,12 +128,14 @@ void execnopipe(char *args[40], int len)
                 close(in);
             }
         }
-        if (execvp(args[0], args) < 0){
+        if (execvp(args[0], args) < 0)
+        {
             cout << "\nwell that didnt work";
         }
         exit(1);
     }
-    else if(child1 > 0){ // if parent is running
+    else if(child1 > 0)
+    { // if parent is running
     // check if theres no &
     if (flag==0)
     {
@@ -151,7 +156,8 @@ void execwithpipe(char* args[],char* marios[],int &flag)
     
     int fd[2];// not sure if this is right but it works
 
-    if(pipe(fd) < 0){//initialize pipeline
+    if(pipe(fd) < 0)
+    {//initialize pipeline
         cout << "\ncant into pipe";
         return;
     }
@@ -164,14 +170,17 @@ void execwithpipe(char* args[],char* marios[],int &flag)
         
         close(fd[1]);
         //check if executable
-        if(execvp(args[0],args) < 0){
+        if(execvp(args[0],args) < 0)
+        {
             cout << "\nwarp pipe 1 failed";
         }
         exit(1);
-    }else if(children >0){//parent program
+    }
+    else if(children >0){//parent program
         
         children = fork();//make another child do the work
-        if(children == 0){
+        if(children == 0)
+        {
             dup2(fd[0], STDIN_FILENO);
             close(fd[1]);
             close(fd[0]);
@@ -181,7 +190,8 @@ void execwithpipe(char* args[],char* marios[],int &flag)
             
             exit(1);
         }
-        else if(children > 0){
+        else if(children > 0)
+        {
             int state;
             close(fd[0]);
             close(fd[1]);
@@ -189,12 +199,14 @@ void execwithpipe(char* args[],char* marios[],int &flag)
                 waitpid(children, &state, 0);
             return;
         }
-        else {
+        else 
+        {
             cout << "\nCan't fork!!!";
             return;
         }
     }
-    else{
+    else
+    {
         cout << "\nCan't fork!!!";
         return;
     }

@@ -25,12 +25,14 @@ int main()
     int run = 1;
     int state = 0;
 
-    while(run) {
+    while(run) 
+    {
         char input[100]; //input "string" because linux mad 
         //string input;
         int len;
         int res=getInput(input);
-        if( res== 1){//execute command
+        if( res== 1)
+        {//execute command
             len = parseInput(args,input);
             executeOrder66(args,len); 
         }
