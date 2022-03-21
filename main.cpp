@@ -1,4 +1,5 @@
 //alvarez angeles tuyay 126 proj 1
+//lots of h files because linux lol
 #include <sys/types.h> 
 //#include <sys/wait.h> 
 #include <sys/stat.h>

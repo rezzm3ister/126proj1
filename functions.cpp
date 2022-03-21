@@ -49,7 +49,8 @@ int parseInput(char* args[], char input[])
 //The function checks whether the passed argument uses a pipe or not
 int checkPipe(char* args[], int len)
 {
-    for(int i = 0; i < len; i++){
+    for(int i = 0; i < len; i++)
+    {
         if(strcmp(args[i],"|")==0)
         {
           return i;
@@ -144,7 +145,7 @@ void execnopipe(char *args[40], int len)
         return;
     }else {
 
-        cout << "\nL+ratio+no maidens+split failed"; //cant split process
+        cout << "\nL+ratio+no maidens+no children"; //cant split process
         return;
     }
 }
@@ -186,7 +187,8 @@ void execwithpipe(char* args[],char* marios[],int &flag)
       dup2(fd[0], STDIN_FILENO);
       close(fd[1]);
       close(fd[0]);
-      if(execvp(marios[0], marios) < 0){
+      if(execvp(marios[0], marios) < 0)
+      {
         cout << "\nwarp pipe 2 failed";
       }
         
