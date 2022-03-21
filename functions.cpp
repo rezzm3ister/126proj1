@@ -143,7 +143,8 @@ void execnopipe(char *args[40], int len)
         wait(NULL);
     }
         return;
-    }else {
+    }
+    else {
 
         cout << "\nL+ratio+no maidens+no children"; //cant split process
         return;
